@@ -7,7 +7,6 @@ import {
 import { plainToInstance } from 'class-transformer';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { UserDto } from 'src/users/dtos/user.dto';
 
 interface ClassConstructor {
   new (...args: any[]): {};

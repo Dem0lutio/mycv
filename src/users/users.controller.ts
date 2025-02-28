@@ -16,6 +16,7 @@ import { UsersService } from './users.service';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { AuthService } from './auth.service';
+import { CurrentUser } from './decorators/current-user.decorator';
 
 @Controller('auth')
 @Serialize(UserDto)
@@ -24,6 +25,24 @@ export class UsersController {
     private userService: UsersService,
     private authService: AuthService,
   ) {}
+
+  // @Get('/whoami')
+  // whoAmI(@Session() session: any) {
+  //   if (!session.userId) {
+  //     throw new NotFoundException('You are not logged in!');
+  //   }
+  //   return this.userService.findOne(session.userId);
+  // }
+
+  @Get('/whoami')
+  whoAmI(@CurrentUser() user: string) {
+    return user;
+  }
+
+  @Post('/signout')
+  signOut(@Session() session: any) {
+    session.userId = null;
+  }
 
   @Post('/signup')
   async createUser(@Body() body: CreateUserDto, @Session() session: any) {
