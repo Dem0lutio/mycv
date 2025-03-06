@@ -51,4 +51,25 @@ describe('AuthService', () => {
       BadRequestException,
     );
   });
+
+  it('throws if an invalid password is provided', async () => {
+    fakeUsersService.find = () =>
+      Promise.resolve([{ email: 'asdf@asdf.com', password: '123' } as User]);
+    await expect(service.signIn('asdf@asdf.com', 'password')).rejects.toThrow(
+      BadRequestException,
+    );
+  });
+
+  it('returns a user if correct password is provided', async () => {
+    fakeUsersService.find = () =>
+      Promise.resolve([
+        {
+          email: 'asdf@asdf.com',
+          password:
+            '2e53853155039c49.a36ea8f5a47cc476c64a3be7d7fab5d369f048196bbd0aedce22eb018c46d65f',
+        } as User,
+      ]);
+    const user = await service.signIn('asdf@asdf.com', 'password');
+    expect(user).toBeDefined();
+  });
 });
