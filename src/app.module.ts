@@ -1,12 +1,13 @@
 import { User } from './users/user.entity';
 import { Report } from './reports/report.entity';
-import { Module, ValidationPipe } from '@nestjs/common';
+import { MiddlewareConsumer, Module, ValidationPipe } from '@nestjs/common';
 import { APP_PIPE } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ReportsModule } from './reports/reports.module';
+const cookieSession = require('cookie-session');
 
 @Module({
   imports: [
@@ -30,4 +31,14 @@ import { ReportsModule } from './reports/reports.module';
     },
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(
+        cookieSession({
+          keys: ['asdfasdf'],
+        }),
+      )
+      .forRoutes('*');
+  }
+}
