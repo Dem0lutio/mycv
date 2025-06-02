@@ -25,12 +25,6 @@ const cookieSession = require('cookie-session');
         entities: [User, Report],
       }),
     }),
-    // TypeOrmModule.forRoot({
-    //   type: 'sqlite',
-    //   database: 'db.sqlite',
-    //   entities: [User, Report],
-    //   synchronize: true,
-    // }),
     UsersModule,
     ReportsModule,
   ],
@@ -46,11 +40,12 @@ const cookieSession = require('cookie-session');
   ],
 })
 export class AppModule {
+  constructor(private configService: ConfigService) {}
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(
         cookieSession({
-          keys: ['asdfasdf'],
+          keys: [this.configService.get('COOKIE_KEY')],
         }),
       )
       .forRoutes('*');
