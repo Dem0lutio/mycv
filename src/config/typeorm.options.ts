@@ -28,6 +28,16 @@ export function buildDataSourceOptions(
         synchronize: false,
         migrationsRun: true, //Important as per lecture 157
       };
+    case 'production':
+      return {
+        type: 'postgres',
+        url: process.env.DATABASE_URL,
+        migrationsRun: true,
+        entities: [`**/*.entity.${fileExt}`],
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      };
     default:
       throw new Error(`Unsupported NODE_ENV: ${env}`);
   }
