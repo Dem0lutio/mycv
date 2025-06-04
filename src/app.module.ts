@@ -10,7 +10,7 @@ import { ReportsModule } from './reports/reports.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmConfigService } from './config/typeorm.config';
 const cookieSession = require('cookie-session');
-const dbConfig = require('../ormconfig.js');
+// const dbConfig = require('../ormconfig.js');
 
 @Module({
   imports: [
